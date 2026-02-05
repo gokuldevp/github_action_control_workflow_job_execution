@@ -33,10 +33,10 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Test code
-        id: run-tests
+        id: run-tests   # Assign an ID to reference the step outcome
         run: npm run test
       - name: Upload test report
-        if: failure() && steps.run-tests.outcome == 'failure'
+        if: failure() && steps.run-tests.outcome == 'failure'  # Conditional upload on test failure
         uses: actions/upload-artifact@v6
         with:
           name: test-report
@@ -59,7 +59,7 @@ jobs:
         id: build-website
         run: npm run build
       - name: Upload artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v6
         with:
           name: dist-files
           path: dist
