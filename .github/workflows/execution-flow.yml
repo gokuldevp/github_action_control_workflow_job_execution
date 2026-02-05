@@ -13,9 +13,10 @@ jobs:
         id: cache
         uses: actions/cache@v3
         with:
-          path: ~/.npm
+          path: node_modules
           key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
       - name: Install dependencies
+        if: steps.cache.outputs.cache-hit != 'true'  # Only install if cache was not hit
         run: npm ci
       - name: Lint code
         run: npm run lint
@@ -28,13 +29,14 @@ jobs:
         id: cache
         uses: actions/cache@v3
         with:
-          path: ~/.npm
+          path: node_modules
           key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
       - name: Install dependencies
+        if: steps.cache.outputs.cache-hit != 'true'  # Only install if cache was not hit
         run: npm ci
       - name: Test code
         id: run-tests   # Assign an ID to reference the step outcome
-        run: npm run test 123
+        run: npm run test
       - name: Upload test report
         if: failure() && steps.run-tests.outcome == 'failure'  # if at step level, Conditional upload on test failure, && used as logical AND falure() is a function used to check if the previous step failed
         uses: actions/upload-artifact@v6
@@ -51,9 +53,10 @@ jobs:
         id: cache
         uses: actions/cache@v3
         with:
-          path: ~/.npm
+          path: node_modules
           key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
       - name: Install dependencies
+        if: steps.cache.outputs.cache-hit != 'true'  # Only install if cache was not hit
         run: npm ci
       - name: Build website
         id: build-website
