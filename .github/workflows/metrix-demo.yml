@@ -11,6 +11,12 @@ jobs:
             matrix: # Define a matrix of configurations to test against
                 node: [16, 18]     # Define a matrix of Node.js versions to test against
                 os: [ubuntu-latest, windows-latest, macos-latest] # Define a matrix of operating systems to test against
+                include: # Include specific combinations of Node.js versions and operating systems
+                    - node: 14
+                      os: ubuntu-latest
+                exclude: # Exclude specific combinations from the matrix
+                    - node: 18
+                      os: windows-latest
         runs-on: ${{ matrix.os }}  # Use the OS defined in the matrix for
         steps:
         - name: Checkout code
