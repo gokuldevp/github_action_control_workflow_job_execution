@@ -71,7 +71,8 @@ jobs:
     uses: ./.github/workflows/reusable.yml  # Call the reusable workflow defined in .github/workflows/reusable.yml
     with:
       artifact-name: 'dist-files'  # Pass the artifact name as an input to the reusable workflow, which will be used in the deploy job defined in that workflow
-
+    secrets:
+      DEPLOYMENT_TOKEN:  abc # ${{ secrets.DEPLOYMENT_TOKEN }}  we need to add literal value here
   report:
     needs: [lint, test, build, deploy]
     if: failure()     # Only run if any of the previous jobs failed, at job level

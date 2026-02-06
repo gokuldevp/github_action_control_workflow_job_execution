@@ -8,6 +8,11 @@ on:
           required: false # Mark the input as required
           default: 'default-artifact' # Provide a default value for the input if not supplied by the caller
           type: string # Specify the type of the input, in this case, a string
+    secrets:
+        DEPLOYMENT_TOKEN: # Define a secret named DEPLOYMENT_TOKEN
+            description: 'Token for deployment authentication' # Provide a description for the secret
+            required: true # Mark the secret as required for the workflow to run
+
 jobs:
     deploy:
         runs-on: ubuntu-latest
