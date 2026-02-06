@@ -12,9 +12,16 @@ on:
         DEPLOYMENT_TOKEN: # Define a secret named DEPLOYMENT_TOKEN
             description: 'Token for deployment authentication' # Provide a description for the secret
             required: true # Mark the secret as required for the workflow to run
+    outputs: # Define outputs that can be returned from the reusable workflow to the caller
+        deployment-status: # Define an output named deployment-status
+            description: 'The status of the deployment process' # Provide a description for the output
+            value: ${{ jobs.deploy.outputs.status }} # Set the value of the output to reference the status output from the deploy job defined in this workflow, allowing the caller to access the deployment status after the workflow execution is complete
+
 
 jobs:
     deploy:
+        outputs:
+            status: ${{ steps.id-deploy.outputs.status }} # Define an output for the deploy job that references the status output from the deploy step
         runs-on: ubuntu-latest
         steps:
         - name: Get Code
@@ -25,3 +32,6 @@ jobs:
           run: ls
         - name: Deploy to production
           run: echo "Deploying to production..."  # Placeholder for actual deployment commands
+        - name: Set deployment status
+          id: id-deploy
+          run: echo "::set-output name=status::success"  # Set the deployment status output to 'success' for demonstration purposes, in a real scenario this would be based on the actual deployment outcome
