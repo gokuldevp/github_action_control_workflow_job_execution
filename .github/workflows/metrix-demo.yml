@@ -6,6 +6,7 @@ on:
 
 jobs:
     build:
+        continues-on-error: true
         strategy: # Define a strategy for the job, which includes a matrix of configurations to test against
             matrix: # Define a matrix of configurations to test against
                 node: [16, 18]     # Define a matrix of Node.js versions to test against
