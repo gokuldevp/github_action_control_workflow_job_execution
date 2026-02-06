@@ -2,12 +2,21 @@ name: reusable workflow
 
 on:
   workflow_call: # This event allows the workflow to be called by other workflows, making it reusable across different contexts and projects
-
+    inputs: # Define inputs that can be passed to the reusable workflow when it is called
+        artifact-name: # Define an input named artifact-name
+          description: 'The name of the artifact to upload' # Provide a description for the input
+          required: false # Mark the input as required
+          default: 'default-artifact' # Provide a default value for the input if not supplied by the caller
+          type: string # Specify the type of the input, in this case, a string
 jobs:
     deploy:
         runs-on: ubuntu-latest
         steps:
-        - name: Checkout code
-          uses: actions/checkout@v3
+        - name: Get Code
+          uses: actions/download-artifact@v6
+          with:
+            name: ${{ inputs.artifact-name }} # Use the input value for the artifact name when checking out code
+        - name: Output contents
+          run: ls
         - name: Deploy to production
           run: echo "Deploying to production..."  # Placeholder for actual deployment commands
