@@ -1,0 +1,25 @@
+name: matrix demo
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+    build:
+        strategy: # Define a strategy for the job, which includes a matrix of configurations to test against
+            matrix: # Define a matrix of configurations to test against
+                node: [16, 18]     # Define a matrix of Node.js versions to test against
+                os: [ubuntu-latest, windows-latest, macos-latest] # Define a matrix of operating systems to test against
+        runs-on: ${{ matrix.os }}  # Use the OS defined in the matrix for
+        steps:
+        - name: Checkout code
+          uses: actions/checkout@v3
+        - name: Install Node.js
+          uses: actions/setup-node@v3
+          with:
+            node-version: ${{ matrix.node }}  # Use the Node.js version defined in the matrix
+        - name: Install dependencies
+          run: npm ci
+        - name: Build project
+          run: npm run build
+
