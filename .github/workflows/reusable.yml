@@ -1,0 +1,13 @@
+name: reusable workflow
+
+on:
+  workflow_call: # This event allows the workflow to be called by other workflows, making it reusable across different contexts and projects
+
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+        steps:
+        - name: Checkout code
+          uses: actions/checkout@v3
+        - name: Deploy to production
+          run: echo "Deploying to production..."  # Placeholder for actual deployment commands
